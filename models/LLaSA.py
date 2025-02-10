@@ -124,7 +124,7 @@ class GFormer(nn.Module):
 
             self.itm_head = nn.Linear(self.roberta_config.hidden_size, 2)
 
-            self.graph_ln = nn.LayerNorm(hypergraph_enc_config.hidden_size)
+            # self.graph_ln = nn.LayerNorm(hypergraph_enc_config.hidden_size)
 
         elif self.strategy[:2] == "pt":             
             self.query_token_embeds = nn.Parameter(torch.zeros(self.num_query_tokens, kwargs['llm_hidden_size']))
@@ -163,11 +163,11 @@ class GFormer(nn.Module):
             else:
                 if self.args.gformer.only_gnn:
                     list_graph_embeds = self.graph_encoder(qformer_inputs["graphs"], not_pad_graph_embeds=True)
-                    list_graph_embeds = [self.graph_ln(graph_embeds) for graph_embeds in list_graph_embeds]
+                    # list_graph_embeds = [self.graph_ln(graph_embeds) for graph_embeds in list_graph_embeds]
                     return list_graph_embeds
                 else:
                     graph_embeds, graph_attention_mask = self.graph_encoder(qformer_inputs["graphs"])
-                    graph_embeds = self.graph_ln(graph_embeds)
+                    # graph_embeds = self.graph_ln(graph_embeds)
 
             query_embeds = self.query_token_embeds.unsqueeze(0).expand(batch_size, -1, -1)
             query_atts = torch.ones(query_embeds.shape[:-1]).to(query_embeds.device)
@@ -203,7 +203,7 @@ class GFormer(nn.Module):
 
         # [batch, num_nodes, dim] * num_gnn_layers
         graph_embeds, graph_attention_mask = self.graph_encoder(qformer_inputs["graphs"])
-        graph_embeds = self.graph_ln(graph_embeds)
+        # graph_embeds = self.graph_ln(graph_embeds)
         
         query_embeds = self.query_token_embeds.unsqueeze(0).expand(batch_size, -1, -1)
         query_atts = torch.ones(query_embeds.shape[:-1]).to(query_embeds.device)

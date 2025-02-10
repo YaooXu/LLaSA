@@ -14,7 +14,7 @@ wandb online
 
 
 dataset_dir=data/pretraining_25M_tables
-num_train_epochs=1
+num_train_epochs=3
 
 
 cfg=hytrel/gformer_pretraining.cfg
@@ -36,7 +36,7 @@ deepspeed --master_port=${master_port} --include=${include} train_sqformer.py \
     --max_qformer_length=${max_qformer_length} \
     --dataset_dir=${dataset_dir} \
     --overwrite_output_dir \
-    --output_dir=./new-outputs/${dataset_dir}/${cfg} \
+    --output_dir=./no_ln-outputs/${dataset_dir}/${cfg} \
     --seed=0 \
     --num_train_epochs=${num_train_epochs} \
     --per_device_train_batch_size=64 \

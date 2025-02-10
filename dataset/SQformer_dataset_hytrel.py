@@ -298,11 +298,11 @@ class GraphDataset(Dataset):
 
             question_ids = torch.LongTensor(s)[:self.max_qformer_length]
             qformer_output = torch.LongTensor(t)[:self.max_qformer_length]
-            text_ids = torch.LongTensor(s + t)[:2 * self.max_qformer_length]
+            text_ids = torch.LongTensor(s + t)[:self.max_qformer_length]
 
             decoder_input_ids = pad_2d_tensor(qformer_output, self.max_qformer_length, self.encoder_tokenizer.pad_token_id)
             question_ids = pad_2d_tensor(question_ids, self.max_qformer_length, self.encoder_tokenizer.pad_token_id)
-            text_ids = pad_2d_tensor(text_ids, 2 * self.max_qformer_length, self.encoder_tokenizer.pad_token_id)
+            text_ids = pad_2d_tensor(text_ids, self.max_qformer_length, self.encoder_tokenizer.pad_token_id)
 
             qformer_input = {
                 'graph': graph,
